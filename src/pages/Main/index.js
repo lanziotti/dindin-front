@@ -1,12 +1,13 @@
 import './styles.css';
 import Header from '../../components/Header';
+import Table from '../../components/Table';
 
 function Main() {
     return (
         <div className='container-main'>
             <Header />
             <section>
-                sthsarethsrthsr
+                <Table />
             </section>
         </div>
     );
