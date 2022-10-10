@@ -51,6 +51,8 @@
     border-bottom: 1px solid #E0E0E0;
     margin-top: 8px;
     padding: 0 24px;
+
+    position: relative;
 }
 
 .content-date {
@@ -67,4 +69,8 @@
 .content-date img {
     width: 12px;
     margin-top: 4px;
+}
+
+.action-buttons img {
+    cursor: pointer;
 }
