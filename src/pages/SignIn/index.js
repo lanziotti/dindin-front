@@ -1,14 +1,49 @@
 import './styles.css';
 import Logo from '../../assets/logo.svg';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import api from '../../services/api';
+import { getItem, setItem } from '../../utils/storage';
 
 function SignIn() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  function handleSubmit(e) {
+
+  useEffect(() => {
+    const token = getItem('token');
+
+    if (token) {
+      navigate('/main');
+    }
+  }, []);
+
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    navigate('/main');
+    try {
+      if (!email || !password) {
+        return;
+      }
+
+      const response = await api.post('/login', {
+        email,
+        senha: password
+      })
+
+      const { usuario, token } = response.data;
+
+      setItem('token', token);
+      setItem('userId', usuario.id);
+      setItem('userName', usuario.nome);
+
+      navigate('/main');
+
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   return (
@@ -27,7 +62,7 @@ function SignIn() {
           </h3>
 
           <button className='btn-purple btn-big'
-          onClick={() => navigate('/sign-up')}
+            onClick={() => navigate('/sign-up')}
           >
             Cadastre-se
           </button>
@@ -37,11 +72,21 @@ function SignIn() {
             <h2>Login</h2>
             <div className='container-inputs'>
               <label htmlFor='email'>E-mail</label>
-              <input type="text" name="email" />
+              <input
+                type="text"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             <div className='container-inputs'>
               <label htmlFor='password'>Password</label>
-              <input type="password" name="password" />
+              <input
+                type="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             <button className='btn-purple btn-big'>
               Entrar

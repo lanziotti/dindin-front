@@ -3,11 +3,13 @@ import Logo from '../../assets/logo.svg';
 import Profile from '../../assets/profile.svg';
 import Logout from '../../assets/logout.svg';
 import { useNavigate } from 'react-router-dom';
+import { clear } from '../../utils/storage';
 
 function Header({ handleEditProfile }) {
     const navigate = useNavigate();
 
     function handleLogout() {
+        clear();
         navigate('/');
     }
 
