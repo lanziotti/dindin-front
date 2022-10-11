@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import ProfileModal from '../../components/ProfileModal';
 import Resume from '../../components/Resume';
 import Table from '../../components/Table';
+import Filter from '../../components/Filter';
 import './styles.css';
 
 function Main() {
@@ -17,7 +18,7 @@ function Main() {
             />
             <section>
                 <div className='width-limit'>
-                    <button>Filtros</button>
+                    <Filter />
                     <div className='container-data'>
                         <Table />
                         <div className='container-right'>
