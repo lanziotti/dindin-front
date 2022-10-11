@@ -11,6 +11,7 @@ function ProfileModal({ open, handleClose }) {
                             className='close-button'
                             src={CloseIcon}
                             alt="close-button"
+                            onClick={handleClose}
                         />
                         <h2>Editar Perfil</h2>
                         <form>
