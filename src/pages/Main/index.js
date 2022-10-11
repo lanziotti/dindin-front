@@ -1,12 +1,18 @@
+import { useState } from 'react';
 import Header from '../../components/Header';
+import ProfileModal from '../../components/ProfileModal';
 import Resume from '../../components/Resume';
 import Table from '../../components/Table';
 import './styles.css';
 
 function Main() {
+    const [openModalProfile, setOpenModalProfile] = useState(false);
+
     return (
         <div className='container-main'>
-            <Header />
+            <Header 
+                handleEditProfile={() => setOpenModalProfile(true)}
+            />
             <section>
                 <div className='width-limit'>
                     <button>Filtros</button>
@@ -19,6 +25,10 @@ function Main() {
                     </div>
                 </div>
             </section>
+            <ProfileModal
+                open={openModalProfile}
+                handleClose={() => setOpenModalProfile(false)}
+            />
         </div>
     );
 }

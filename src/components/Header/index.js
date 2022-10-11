@@ -4,7 +4,7 @@ import Profile from '../../assets/profile.svg';
 import Logout from '../../assets/logout.svg';
 import { useNavigate } from 'react-router-dom';
 
-function Header() {
+function Header({ handleEditProfile }) {
     const navigate = useNavigate();
 
     function handleLogout() {
@@ -16,15 +16,18 @@ function Header() {
             <div className='width-limit content-header'>
                 <img src={Logo} alt="Logo" />
                 <div className='container-sign-out'>
-                    <div className='profile-area'>
+                    <div
+                        onClick={handleEditProfile}
+                        className='profile-area'
+                    >
                         <img src={Profile} alt="Profile" />
                         <strong>Rodrigo</strong>
                         <img
-                         src={Logout}
-                          alt="Logout"
-                           className='sign-out'
-                           onClick={handleLogout}
-                            />
+                            src={Logout}
+                            alt="Logout"
+                            className='sign-out'
+                            onClick={handleLogout}
+                        />
                     </div>
                 </div>
             </div>
