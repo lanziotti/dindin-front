@@ -19,7 +19,7 @@ function Main() {
 
             setTransactions([...allTransactions]);
         }
-        
+
         getAllTransactions();
 
     }, []);
@@ -33,7 +33,10 @@ function Main() {
                 <div className='width-limit'>
                     <div className='container-data'>
                         <div className='container-left'>
-                            <Filter />
+                            <Filter
+                                transactions={transactions}
+                                setTransactions={setTransactions}
+                            />
                             <Table
                                 transactions={transactions}
                             />
