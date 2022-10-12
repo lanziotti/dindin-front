@@ -25,7 +25,7 @@ function EditTransactionModal({ open, handleClose, setTransactions, currentItemT
     const [form, setForm] = useState({ ...defaultForm });
 
     function handleChangeForm({ target }) {
-        setForm({ ...form, [target.name]: [target.value] });
+        setForm({ ...form, [target.name]: target.value });
     }
 
     function handleChangeSelect({ target }) {
@@ -53,7 +53,9 @@ function EditTransactionModal({ open, handleClose, setTransactions, currentItemT
                     categoria_id: form.category.id
                 },
                 {
-                    headers: `Bearer ${token}`
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 })
 
             handleClose();

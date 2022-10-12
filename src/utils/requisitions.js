@@ -22,11 +22,11 @@ export async function loadCategories() {
     }
 }
 
-export    async function loadTransactions() {
+export async function loadTransactions() {
     let token = '';
 
     token = getItem('token');
-    
+
     try {
         const response = await api.get('/transacao', {
             headers: {

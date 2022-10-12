@@ -11,12 +11,14 @@ import EditTransactionModal from '../../components/EditTransactionModal';
 
 function Main() {
     const [openModalProfile, setOpenModalProfile] = useState(false);
-    const [openAddModalTransaction, setOpenAddModalTransaction] = useState(false);
+    const [openModalAddTransaction, setOpenModalAddTransaction] = useState(false);
     const [transactions, setTransactions] = useState([]);
     const [openModalEdit, setOpenModalEdit] = useState(false);
     const [currentItemToEdit, setCurrentItemToEdit] = useState(null);
 
     useEffect(() => {
+        setTransactions([]);
+        
         async function getAllTransactions() {
             const allTransactions = await loadTransactions();
 
@@ -53,7 +55,7 @@ function Main() {
                             />
                             <button
                                 className='btn-purple btn-small'
-                                onClick={() => setOpenAddModalTransaction(true)}
+                                onClick={() => setOpenModalAddTransaction(true)}
                             >
                                 Adicionar Registro
                             </button>
@@ -62,8 +64,8 @@ function Main() {
                 </div>
             </section>
             <AddTransactionModal
-                open={openAddModalTransaction}
-                handleClose={() => setOpenAddModalTransaction(false)}
+                open={openModalAddTransaction}
+                handleClose={() => setOpenModalAddTransaction(false)}
                 setTransactions={setTransactions}
             />
             <EditTransactionModal

@@ -17,7 +17,7 @@ function Resume({ transactions }) {
         try {
             const response = await api.get('/transacao/extrato', {
                 headers: {
-                    Authorizathion: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             });
 

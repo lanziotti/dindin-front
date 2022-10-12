@@ -31,7 +31,7 @@ function Table({ transactions, setTransactions, setOpenModalEdit, setCurrentItem
                 }
             });
 
-            const allTransactions = loadTransactions();
+            const allTransactions = await loadTransactions();
 
             setTransactions([...allTransactions]);
 

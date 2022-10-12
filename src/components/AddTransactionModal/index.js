@@ -24,7 +24,7 @@ function AddTransactionModal({ open, handleClose, setTransactions }) {
     const [form, setForm] = useState({ ...defaultForm });
 
     function handleChangeForm({ target }) {
-        setForm({ ...form, [target.name]: [target.value] });
+        setForm({ ...form, [target.name]: target.value });
     }
 
     function handleChangeSelect({ target }) {
