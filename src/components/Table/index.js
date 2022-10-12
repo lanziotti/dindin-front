@@ -6,7 +6,7 @@ import EditIcon from '../../assets/edit-icon.svg';
 import Confirm from '../Confirm';
 import './styles.css';
 
-function Table() {
+function Table({ transactions }) {
     const [asc, setAsc] = useState(true);
     const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -33,26 +33,29 @@ function Table() {
             </div>
 
             <div className='table-body'>
-                <div className='table-row'>
-                    <strong className='table-column-small content-date'>11/04/2022</strong>
-                    <span className='table-column-middle'>Segunda</span>
-                    <span className='table-column-big'>Venda de um produto</span>
-                    <span className='table-column-small'>Vendas</span>
-                    <strong className='table-column-small'>R$ 100,00</strong>
-                    <div className='table-column-small action-buttons'>
-                        <img src={EditIcon} alt="edit" />
-                        <img
-                            src={DeleteIcon}
-                            alt="delete"
-                            onClick={() => setOpenConfirm(true)}
+                {transactions.map((transact) => (
+                    <div className='table-row' key={transact.id}>
+                        <strong className='table-column-small content-date'>{transact.data}</strong>
+                        <span className='table-column-middle'>{transact.data}</span>
+                        <span className='table-column-big'>{transact.descricao}</span>
+                        <span className='table-column-small'>{transact.categoria_nome}</span>
+                        <strong className='table-column-small'>{transact.valor}</strong>
+                        <div className='table-column-small action-buttons'>
+                            <img src={EditIcon} alt="edit" />
+                            <img
+                                src={DeleteIcon}
+                                alt="delete"
+                                onClick={() => setOpenConfirm(true)}
+                            />
+                        </div>
+                        <Confirm
+                            open={openConfirm}
+                            handleClose={() => setOpenConfirm(false)}
+                            handleConfirm={handleDeleteItem}
                         />
                     </div>
-                    <Confirm
-                        open={openConfirm}
-                        handleClose={() => setOpenConfirm(false)}
-                        handleConfirm={handleDeleteItem}
-                    />
-                </div>
+                ))}
+
             </div>
         </div>
     );

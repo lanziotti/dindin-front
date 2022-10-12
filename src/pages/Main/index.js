@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddTransactionModal from '../../components/AddTransactionModal';
 import Header from '../../components/Header';
 import ProfileModal from '../../components/ProfileModal';
@@ -6,10 +6,34 @@ import Resume from '../../components/Resume';
 import Table from '../../components/Table';
 import Filter from '../../components/Filter';
 import './styles.css';
+import api from '../../services/api';
+import { getItem } from '../../utils/storage';
 
 function Main() {
     const [openModalProfile, setOpenModalProfile] = useState(false);
     const [openAddModalTransaction, setOpenAddModalTransaction] = useState(false);
+    const [transactions, setTransactions] = useState([]);
+
+    const token = getItem('token');
+
+    async function loadTransactions() {
+        try {
+            const response = await api.get('/transacao', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            setTransactions([...response.data]);
+
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
+    useEffect(() => {
+        loadTransactions();
+    }, []);
 
     return (
         <div className='container-main'>
@@ -21,7 +45,9 @@ function Main() {
                     <div className='container-data'>
                         <div className='container-left'>
                             <Filter />
-                            <Table />
+                            <Table
+                            transactions={transactions}
+                            />
                         </div>
                         <div className='container-right'>
                             <Resume />
