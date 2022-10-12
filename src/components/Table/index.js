@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ArrowDown from '../../assets/arrow-down.svg';
 import ArrowUp from '../../assets/arrow-up.svg';
 import DeleteIcon from '../../assets/delete-icon.svg';
@@ -16,6 +16,7 @@ function Table({ transactions, setTransactions, setOpenModalEdit, setCurrentItem
     const [asc, setAsc] = useState(true);
     const [openConfirm, setOpenConfirm] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
+    const [orderedTransactions, setOrderedTransactions] = useState([]);
 
     function handleOpenConfirm(transact) {
         setCurrentItem(transact);
@@ -46,6 +47,20 @@ function Table({ transactions, setTransactions, setOpenModalEdit, setCurrentItem
         setCurrentItemToEdit(transact);
     }
 
+    useEffect(() => {
+        const localTransactions = [...transactions];
+
+        if (asc) {
+            localTransactions.sort((a, b) => new Date(a.data) - new Date(b.data));
+            setOrderedTransactions([...localTransactions]);
+            return;
+        }
+
+        localTransactions.sort((a, b) => new Date(b.data) - new Date(a.data));
+        setOrderedTransactions([...localTransactions]);
+
+    }, [asc, transactions]);
+
     return (
         <div className='container-table'>
             <div className='table-head'>
@@ -64,7 +79,7 @@ function Table({ transactions, setTransactions, setOpenModalEdit, setCurrentItem
             </div>
 
             <div className='table-body'>
-                {transactions.map((transact) => (
+                {orderedTransactions.map((transact) => (
                     <div className='table-row' key={transact.id}>
                         <strong className='table-column-small content-date'>
                             {formatToDate(transact.data)}
@@ -85,10 +100,10 @@ function Table({ transactions, setTransactions, setOpenModalEdit, setCurrentItem
                         </strong>
                         <div className='table-column-small action-buttons'>
                             <img
-                             src={EditIcon} 
-                             alt="edit"
-                             onClick={() => handelOpenEdit(transact)}
-                              />
+                                src={EditIcon}
+                                alt="edit"
+                                onClick={() => handelOpenEdit(transact)}
+                            />
                             <img
                                 src={DeleteIcon}
                                 alt="delete"
