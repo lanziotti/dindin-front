@@ -1,10 +1,11 @@
 import api from "../services/api";
 import { getItem } from "./storage";
 
-
-const token = getItem('token');
-
 export async function loadCategories() {
+    let token = '';
+
+    token = getItem('token');
+
     try {
         const response = await api.get('/categoria', {
             headers: {
@@ -22,6 +23,10 @@ export async function loadCategories() {
 }
 
 export    async function loadTransactions() {
+    let token = '';
+
+    token = getItem('token');
+    
     try {
         const response = await api.get('/transacao', {
             headers: {

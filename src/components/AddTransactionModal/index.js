@@ -28,7 +28,7 @@ function AddTransactionModal({ open, handleClose, setTransactions }) {
     }
 
     function handleChangeSelect({ target }) {
-        const currentyCategory = categories.find((categorie) => categorie.descricao === categorie.value);
+        const currentyCategory = categories.find((categorie) => categorie.descricao === target.value);
 
         if (!currentyCategory) {
             return;
@@ -52,11 +52,13 @@ function AddTransactionModal({ open, handleClose, setTransactions }) {
                     categoria_id: form.category.id
                 },
                 {
-                    headers: `Bearer ${token}`
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 })
 
             handleClose();
-            setForm({...defaultForm});
+            setForm({ ...defaultForm });
 
             const allTransactions = await loadTransactions();
 
