@@ -7,11 +7,14 @@ import Table from '../../components/Table';
 import Filter from '../../components/Filter';
 import './styles.css';
 import { loadTransactions } from '../../utils/requisitions';
+import EditTransactionModal from '../../components/EditTransactionModal';
 
 function Main() {
     const [openModalProfile, setOpenModalProfile] = useState(false);
     const [openAddModalTransaction, setOpenAddModalTransaction] = useState(false);
     const [transactions, setTransactions] = useState([]);
+    const [openModalEdit, setOpenModalEdit] = useState(false);
+    const [currentItemToEdit, setCurrentItemToEdit] = useState(null);
 
     useEffect(() => {
         async function getAllTransactions() {
@@ -40,6 +43,8 @@ function Main() {
                             <Table
                                 transactions={transactions}
                                 setTransactions={setTransactions}
+                                setOpenModalEdit={setOpenModalEdit}
+                                setCurrentItemToEdit={setCurrentItemToEdit}
                             />
                         </div>
                         <div className='container-right'>
@@ -60,6 +65,12 @@ function Main() {
                 open={openAddModalTransaction}
                 handleClose={() => setOpenAddModalTransaction(false)}
                 setTransactions={setTransactions}
+            />
+            <EditTransactionModal
+                open={openModalEdit}
+                setTransactions={setTransactions}
+                handleClose={() => setOpenModalEdit(false)}
+                currentItemToEdit={currentItemToEdit}
             />
             <ProfileModal
                 open={openModalProfile}

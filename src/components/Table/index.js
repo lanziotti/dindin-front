@@ -10,7 +10,7 @@ import { getItem } from '../../utils/storage';
 import Confirm from '../Confirm';
 import './styles.css';
 
-function Table({ transactions, setTransactions }) {
+function Table({ transactions, setTransactions, setOpenModalEdit, setCurrentItemToEdit }) {
     const token = getItem('token');
 
     const [asc, setAsc] = useState(true);
@@ -39,6 +39,11 @@ function Table({ transactions, setTransactions }) {
         } finally {
             setOpenConfirm(false);
         }
+    }
+
+    function handelOpenEdit(transact) {
+        setOpenModalEdit(true);
+        setCurrentItemToEdit(transact);
     }
 
     return (
@@ -79,7 +84,11 @@ function Table({ transactions, setTransactions }) {
                             {formatToMoney(transact.valor)}
                         </strong>
                         <div className='table-column-small action-buttons'>
-                            <img src={EditIcon} alt="edit" />
+                            <img
+                             src={EditIcon} 
+                             alt="edit"
+                             onClick={() => handelOpenEdit(transact)}
+                              />
                             <img
                                 src={DeleteIcon}
                                 alt="delete"
