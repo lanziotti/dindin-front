@@ -3,6 +3,7 @@ import ArrowDown from '../../assets/arrow-down.svg';
 import ArrowUp from '../../assets/arrow-up.svg';
 import DeleteIcon from '../../assets/delete-icon.svg';
 import EditIcon from '../../assets/edit-icon.svg';
+import { formatToDate, formatToMoney, formatToWeekDay } from '../../utils/formatters';
 import Confirm from '../Confirm';
 import './styles.css';
 
@@ -35,11 +36,23 @@ function Table({ transactions }) {
             <div className='table-body'>
                 {transactions.map((transact) => (
                     <div className='table-row' key={transact.id}>
-                        <strong className='table-column-small content-date'>{transact.data}</strong>
-                        <span className='table-column-middle'>{transact.data}</span>
-                        <span className='table-column-big'>{transact.descricao}</span>
-                        <span className='table-column-small'>{transact.categoria_nome}</span>
-                        <strong className='table-column-small'>{transact.valor}</strong>
+                        <strong className='table-column-small content-date'>
+                            {formatToDate(transact.data)}
+                        </strong>
+                        <span className='table-column-middle'>
+                            {formatToWeekDay(transact.data)}
+                        </span>
+                        <span className='table-column-big'>
+                            {transact.descricao}
+                        </span>
+                        <span className='table-column-small'>
+                            {transact.categoria_nome}
+                        </span>
+                        <strong
+                            className={`table-column-small values ${transact.tipo === 'entrada' ? 'positive-value' : 'negative-value'}`}
+                        >
+                            {formatToMoney(transact.valor)}
+                        </strong>
                         <div className='table-column-small action-buttons'>
                             <img src={EditIcon} alt="edit" />
                             <img
