@@ -3,6 +3,7 @@ import CloseIcon from '../../assets/close-icon.svg';
 import './styles.css';
 import api from '../../services/api';
 import { getItem } from '../../utils/storage';
+import { loadCategories, loadTransactions } from '../../utils/requisitions';
 
 const defaultForm = {
     value: '',
@@ -15,29 +16,12 @@ const defaultForm = {
 }
 
 
-function AddTransactionModal({ open, handleClose }) {
+function AddTransactionModal({ open, handleClose, setTransactions }) {
     const token = getItem('token');
 
     const [option, setOption] = useState('out');
     const [categories, setCategories] = useState([]);
     const [form, setForm] = useState({ ...defaultForm });
-
-    async function loadCategories() {
-        try {
-            const response = await api.get('/categoria', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            const orderedCategories = response.data.sort((a, b) => a - b);
-
-            setCategories(orderedCategories);
-
-        } catch (error) {
-            console.log(error.response);
-        }
-    }
 
     function handleChangeForm({ target }) {
         setForm({ ...form, [target.name]: [target.value] });
@@ -53,12 +37,45 @@ function AddTransactionModal({ open, handleClose }) {
         setForm({ ...form, category: { id: currentyCategory.id, name: currentyCategory.descricao } });
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
+
+        const [day, month, year] = form.date.split('/');
+
+        try {
+            await api.post('/transacao',
+                {
+                    tipo: option === 'in' ? 'entrada' : 'saida',
+                    descricao: form.description,
+                    valor: form.value,
+                    data: new Date(`${year}-${month}-${day}`),
+                    categoria_id: form.category.id
+                },
+                {
+                    headers: `Bearer ${token}`
+                })
+
+            handleClose();
+            setForm({...defaultForm});
+
+            const allTransactions = await loadTransactions();
+
+            setTransactions([...allTransactions]);
+
+        } catch (error) {
+            console.log(error.response);
+        }
     }
 
     useEffect(() => {
-        loadCategories();
+        async function getCategories() {
+            const allCategories = await loadCategories();
+
+            setCategories([...allCategories]);
+        }
+
+        getCategories();
+
     }, []);
 
 
@@ -99,7 +116,7 @@ function AddTransactionModal({ open, handleClose }) {
                                 <label>Valor</label>
                                 <input
                                     name='value'
-                                    type="text"
+                                    type="number"
                                     value={form.value}
                                     onChange={handleChangeForm}
                                     required

@@ -6,33 +6,22 @@ import Resume from '../../components/Resume';
 import Table from '../../components/Table';
 import Filter from '../../components/Filter';
 import './styles.css';
-import api from '../../services/api';
-import { getItem } from '../../utils/storage';
+import { loadTransactions } from '../../utils/requisitions';
 
 function Main() {
     const [openModalProfile, setOpenModalProfile] = useState(false);
     const [openAddModalTransaction, setOpenAddModalTransaction] = useState(false);
     const [transactions, setTransactions] = useState([]);
 
-    const token = getItem('token');
-
-    async function loadTransactions() {
-        try {
-            const response = await api.get('/transacao', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            setTransactions([...response.data]);
-
-        } catch (error) {
-            console.log(error.response)
-        }
-    }
-
     useEffect(() => {
-        loadTransactions();
+        async function getAllTransactions() {
+            const allTransactions = await loadTransactions();
+
+            setTransactions([...allTransactions]);
+        }
+        
+        getAllTransactions();
+
     }, []);
 
     return (
@@ -46,7 +35,7 @@ function Main() {
                         <div className='container-left'>
                             <Filter />
                             <Table
-                            transactions={transactions}
+                                transactions={transactions}
                             />
                         </div>
                         <div className='container-right'>
@@ -64,6 +53,7 @@ function Main() {
             <AddTransactionModal
                 open={openAddModalTransaction}
                 handleClose={() => setOpenAddModalTransaction(false)}
+                setTransactions={setTransactions}
             />
             <ProfileModal
                 open={openModalProfile}
