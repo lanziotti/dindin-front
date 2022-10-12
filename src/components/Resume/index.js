@@ -4,7 +4,7 @@ import { formatToMoney } from '../../utils/formatters';
 import { getItem } from '../../utils/storage';
 import './styles.css';
 
-function Resume() {
+function Resume({ transactions }) {
     const [extract, setExtract] = useState({
         in: 0,
         out: 0,
@@ -36,7 +36,7 @@ function Resume() {
 
     useEffect(() => {
         loadExtract();
-    }, []);
+    }, [transactions]);
 
     return (
         <div className='container-resume'>

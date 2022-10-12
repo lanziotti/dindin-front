@@ -3,17 +3,42 @@ import ArrowDown from '../../assets/arrow-down.svg';
 import ArrowUp from '../../assets/arrow-up.svg';
 import DeleteIcon from '../../assets/delete-icon.svg';
 import EditIcon from '../../assets/edit-icon.svg';
+import api from '../../services/api';
 import { formatToDate, formatToMoney, formatToWeekDay } from '../../utils/formatters';
+import { loadTransactions } from '../../utils/requisitions';
+import { getItem } from '../../utils/storage';
 import Confirm from '../Confirm';
 import './styles.css';
 
-function Table({ transactions }) {
+function Table({ transactions, setTransactions }) {
+    const token = getItem('token');
+
     const [asc, setAsc] = useState(true);
     const [openConfirm, setOpenConfirm] = useState(false);
+    const [currentItem, setCurrentItem] = useState(null);
 
-    function handleDeleteItem() {
-        console.log('delete');
-        setOpenConfirm(false);
+    function handleOpenConfirm(transact) {
+        setCurrentItem(transact);
+        setOpenConfirm(!openConfirm);
+    }
+
+    async function handleDeleteItem() {
+        try {
+            await api.delete(`/transacao/${currentItem.id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const allTransactions = loadTransactions();
+
+            setTransactions([...allTransactions]);
+
+        } catch (error) {
+            console.log(error.response);
+        } finally {
+            setOpenConfirm(false);
+        }
     }
 
     return (
@@ -58,11 +83,11 @@ function Table({ transactions }) {
                             <img
                                 src={DeleteIcon}
                                 alt="delete"
-                                onClick={() => setOpenConfirm(true)}
+                                onClick={() => handleOpenConfirm(transact)}
                             />
                         </div>
                         <Confirm
-                            open={openConfirm}
+                            open={openConfirm && transact.id === currentItem.id}
                             handleClose={() => setOpenConfirm(false)}
                             handleConfirm={handleDeleteItem}
                         />

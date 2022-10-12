@@ -39,10 +39,13 @@ function Main() {
                             />
                             <Table
                                 transactions={transactions}
+                                setTransactions={setTransactions}
                             />
                         </div>
                         <div className='container-right'>
-                            <Resume />
+                            <Resume
+                                transactions={transactions}
+                            />
                             <button
                                 className='btn-purple btn-small'
                                 onClick={() => setOpenAddModalTransaction(true)}
