@@ -55,6 +55,34 @@ Projeto feito para a conclusão do módulo 03 do Curso de Desenvolvimento de Sof
 
 ![Página Inicial 3](https://github.com/lanziotti/dindin-front/blob/master/public/Main%203.png)
 
-### 8 - Se você clicar no ícone do cabeçalho perto do seu nome, você pode editar os seus dados de usuário:
+### 8 - Clicando no ícone do "lápis", você pode editar um registro já feito:
+
+![Modal Editar Registro](https://github.com/lanziotti/dindin-front/blob/master/public/Modal%20Editar%20Registro.png)
+
+### 9 - Se você clicar no ícone do cabeçalho a esquerda do seu nome, você pode editar os seus dados de usuário:
 
 ![Modal Perfil](https://github.com/lanziotti/dindin-front/blob/master/public/Modal%20Perfil.png)
+
+### 10 - Clicando no ícone do cabeçalho a direita do seu nome, você efetua o Logout e é redirecionado para a página inicial (Login).
+
+#
+
+## Links
+- Repositório: https://github.com/lanziotti/dindin-front
+
+## Contatos
+- Email: rodrigolanziotti@yahoo.com.br  
+- LinkedIn: https://www.linkedin.com/in/rodrigo-lanziotti-16a64966/
+
+## Versão
+1.0.0
+
+## Autor
+**Rodrigo Lanziotti de Freitas**
+
+##
+
+
+Obrigado por visitar meu repositório...😎
+
+...fique a vontade para entrar em contato quando quiser! 😉
