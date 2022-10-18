@@ -5,6 +5,7 @@ import DeleteIcon from '../../assets/delete-icon.svg';
 import EditIcon from '../../assets/edit-icon.svg';
 import api from '../../services/api';
 import { formatToDate, formatToMoney, formatToWeekDay } from '../../utils/formatters';
+import { notifyError, notifySucess } from '../../utils/notifications';
 import { loadTransactions } from '../../utils/requisitions';
 import { getItem } from '../../utils/storage';
 import Confirm from '../Confirm';
@@ -25,18 +26,24 @@ function Table({ transactions, setTransactions, setOpenModalEdit, setCurrentItem
 
     async function handleDeleteItem() {
         try {
-            await api.delete(`/transacao/${currentItem.id}`, {
+            const response = await api.delete(`/transacao/${currentItem.id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
+
+            if (response.status > 204) {
+                return notifyError(response.data);
+            }
+
+            notifySucess('Transação excluída.');
 
             const allTransactions = await loadTransactions();
 
             setTransactions([...allTransactions]);
 
         } catch (error) {
-            console.log(error.response);
+            notifyError(error.response.data);
         } finally {
             setOpenConfirm(false);
         }

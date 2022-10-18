@@ -1,7 +1,8 @@
-import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import Main from './pages/Main';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-import Main from './pages/Main';
 import { getItem } from './utils/storage';
 
 function ProtectedRoutes({ redirectTo }) {
@@ -12,14 +13,17 @@ function ProtectedRoutes({ redirectTo }) {
 
 function MainRoutes() {
     return (
-        <Routes>
-            <Route path='/' element={<SignIn />} />
-            <Route path='/sign-up' element={<SignUp />} />
+        <>
+            <ToastContainer />
+            <Routes>
+                <Route path='/' element={<SignIn />} />
+                <Route path='/sign-up' element={<SignUp />} />
 
-            <Route element={<ProtectedRoutes redirectTo='/' />}>
-                <Route path='/main' element={<Main />} />
-            </Route>
-        </Routes>
+                <Route element={<ProtectedRoutes redirectTo='/' />}>
+                    <Route path='/main' element={<Main />} />
+                </Route>
+            </Routes>
+        </>
     );
 }
 

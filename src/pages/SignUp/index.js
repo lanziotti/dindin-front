@@ -1,9 +1,9 @@
-import './styles.css';
-import Logo from '../../assets/logo.svg';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Logo from '../../assets/logo.svg';
 import api from '../../services/api';
-import { useNavigate } from 'react-router-dom';
+import { notifyError, notifySucess } from '../../utils/notifications';
+import './styles.css';
 
 const defaultForm = {
   name: '',
@@ -22,14 +22,14 @@ function SignUp() {
 
     try {
       if (!form.name || !form.email || !form.password || !form.confirmPassword) {
-        return;
+        return notifyError('Todos os campos são obrigatórios.');
       }
 
       if (form.password !== form.confirmPassword) {
-        return;
+        return notifyError('As senhas precisam ser iguais.');
       }
 
-      await api.post('/usuario',
+      const response = await api.post('/usuario',
         {
           email: form.email,
           nome: form.name,
@@ -37,10 +37,16 @@ function SignUp() {
         }
       );
 
+      if (response.status > 204) {
+        return notifyError(response.data);
+      }
+
+      notifySucess('Cdastro realizado.');
+
       navigate('/');
 
     } catch (error) {
-      console.log(error.response);
+      notifyError(error.response.data);
     }
   }
 

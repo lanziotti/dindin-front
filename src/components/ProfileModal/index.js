@@ -1,8 +1,9 @@
-import CloseIcon from '../../assets/close-icon.svg';
-import './styles.css';
-import api from '../../services/api';
 import { useEffect, useState } from 'react';
+import CloseIcon from '../../assets/close-icon.svg';
+import api from '../../services/api';
+import { notifyError, notifySucess } from '../../utils/notifications';
 import { getItem, setItem } from '../../utils/storage';
+import './styles.css';
 
 const defaultForm = {
     name: '',
@@ -25,14 +26,14 @@ function ProfileModal({ open, handleClose }) {
 
         try {
             if (!form.name || !form.email || !form.password || !form.confirmPassword) {
-                return;
+                return notifyError('Todos os campos são obrigatórios.');
             }
 
             if (form.password !== form.confirmPassword) {
-                return;
+                return notifyError('As senhas precisam ser iguais.');
             }
 
-            await api.put('/usuario',
+            const response = await api.put('/usuario',
                 {
                     nome: form.name,
                     email: form.email,
@@ -45,13 +46,19 @@ function ProfileModal({ open, handleClose }) {
                 }
             );
 
+            if (response.status >204) {
+                return notifyError(response.data);
+            }
+
             setItem('userName', form.name);
+
+            notifySucess('Perfil atualizado.');
 
             handleClose();
             handleClearForm();
 
         } catch (error) {
-            console.log(error.response);
+            notifyError(error.response.data);
         }
     }
 

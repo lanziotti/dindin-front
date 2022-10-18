@@ -1,9 +1,10 @@
-import './styles.css';
-import Logo from '../../assets/logo.svg';
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Logo from '../../assets/logo.svg';
 import api from '../../services/api';
+import { notifyError } from '../../utils/notifications';
 import { getItem, setItem } from '../../utils/storage';
+import './styles.css';
 
 function SignIn() {
   const navigate = useNavigate();
@@ -24,13 +25,17 @@ function SignIn() {
 
     try {
       if (!email || !password) {
-        return;
+        return notifyError('Todos os campos são obrigatórios.');
       }
 
       const response = await api.post('/login', {
         email,
         senha: password
       })
+
+      if (response.status > 204) {
+        return notifyError('E-mail e/ou senha inválidos.');
+      }
 
       const { usuario, token } = response.data;
 
@@ -41,7 +46,7 @@ function SignIn() {
       navigate('/main');
 
     } catch (error) {
-      console.log(error);
+      notifyError(error.response.data.mensagem);
     }
 
   }

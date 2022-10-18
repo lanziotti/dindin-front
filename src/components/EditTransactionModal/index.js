@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import CloseIcon from '../../assets/close-icon.svg';
 import api from '../../services/api';
+import { formatToDate } from '../../utils/formatters';
+import { notifyError, notifySucess } from '../../utils/notifications';
 import { loadCategories, loadTransactions } from '../../utils/requisitions';
 import { getItem } from '../../utils/storage';
 import './styles.css';
-import { formatToDate } from '../../utils/formatters';
 
 const defaultForm = {
     value: '',
@@ -44,7 +45,7 @@ function EditTransactionModal({ open, handleClose, setTransactions, currentItemT
         const [day, month, year] = form.date.split('/');
 
         try {
-            await api.put(`/transacao/${currentItemToEdit.id}`,
+            const response = await api.put(`/transacao/${currentItemToEdit.id}`,
                 {
                     tipo: option === 'in' ? 'entrada' : 'saida',
                     descricao: form.description,
@@ -58,6 +59,12 @@ function EditTransactionModal({ open, handleClose, setTransactions, currentItemT
                     }
                 })
 
+            if (response.status > 204) {
+                return notifyError(response.data);
+            }
+
+            notifySucess('Transação atualizada.');
+
             handleClose();
             setForm({ ...defaultForm });
 
@@ -66,7 +73,7 @@ function EditTransactionModal({ open, handleClose, setTransactions, currentItemT
             setTransactions([...allTransactions]);
 
         } catch (error) {
-            console.log(error.response);
+            notifyError(error.response.data);
         }
     }
 

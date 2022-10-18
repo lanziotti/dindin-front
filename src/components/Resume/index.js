@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
 import { formatToMoney } from '../../utils/formatters';
+import { notifyError } from '../../utils/notifications';
 import { getItem } from '../../utils/storage';
 import './styles.css';
 
@@ -21,6 +22,10 @@ function Resume({ transactions }) {
                 }
             });
 
+            if (response.status > 204) {
+                return notifyError(response.data);
+            }
+
             const { entrada, saida } = response.data;
 
             setExtract({
@@ -30,7 +35,7 @@ function Resume({ transactions }) {
             });
 
         } catch (error) {
-            console.log(error.response)
+            notifyError(error.response.data);
         }
     }
 

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import CloseIcon from '../../assets/close-icon.svg';
-import './styles.css';
 import api from '../../services/api';
-import { getItem } from '../../utils/storage';
+import { notifyError, notifySucess } from '../../utils/notifications';
 import { loadCategories, loadTransactions } from '../../utils/requisitions';
+import { getItem } from '../../utils/storage';
+import './styles.css';
 
 const defaultForm = {
     value: '',
@@ -43,7 +44,7 @@ function AddTransactionModal({ open, handleClose, setTransactions }) {
         const [day, month, year] = form.date.split('/');
 
         try {
-            await api.post('/transacao',
+            const response = await api.post('/transacao',
                 {
                     tipo: option === 'in' ? 'entrada' : 'saida',
                     descricao: form.description,
@@ -57,6 +58,12 @@ function AddTransactionModal({ open, handleClose, setTransactions }) {
                     }
                 })
 
+            if (response.status > 204) {
+                return notifyError(response.data);
+            }
+
+            notifySucess('Transação adicionada.');
+
             handleClose();
             setForm({ ...defaultForm });
 
@@ -65,7 +72,7 @@ function AddTransactionModal({ open, handleClose, setTransactions }) {
             setTransactions([...allTransactions]);
 
         } catch (error) {
-            console.log(error.response);
+            notifyError(error.response.data);
         }
     }
 
