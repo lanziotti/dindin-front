@@ -1,7 +1,9 @@
 ![Logo do projeto](https://github.com/lanziotti/dindin-front/blob/master/public/Logo%20Projeto.png)
 
 # Dindin - Aplicação para controle financeiro pessoal
-Projeto feito para a conclusão do módulo 03 do Curso de Desenvolvimento de Software da Cubos Academy
+Projeto feito para a conclusão do módulo 03 do Curso de Desenvolvimento de Software da Cubos Academy.
+
+OBS: Não foi aplicado responsividade ainda no projeto, pois não foi exigido para a conclusão do módulo, porém, em breve, será adaptado à responsividade.
 
 ## Tecnologias
 
