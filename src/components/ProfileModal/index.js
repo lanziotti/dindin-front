@@ -46,7 +46,7 @@ function ProfileModal({ open, handleClose }) {
                 }
             );
 
-            if (response.status >204) {
+            if (response.status > 204) {
                 return notifyError(response.data);
             }
 
@@ -58,7 +58,7 @@ function ProfileModal({ open, handleClose }) {
             handleClearForm();
 
         } catch (error) {
-            notifyError(error.response.data);
+            notifyError(error.response.data.mensagem);
         }
     }
 
@@ -69,6 +69,8 @@ function ProfileModal({ open, handleClose }) {
     useEffect(() => {
 
         async function loadUserProfile() {
+            const token = getItem('token');
+
             try {
                 const response = await api.get('/usuario', {
                     headers: {
@@ -77,18 +79,18 @@ function ProfileModal({ open, handleClose }) {
                 });
 
                 const { nome, email } = response.data;
-
+                
                 setForm({
-                    ...form,
                     name: nome,
-                    email: email,
+                    email: email
                 });
 
 
             } catch (error) {
-                console.log(error.response);
+                notifyError(error.response.data.mensagem);
             }
         }
+
         if (open) {
             loadUserProfile();
         }

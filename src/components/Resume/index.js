@@ -12,35 +12,37 @@ function Resume({ transactions }) {
         balance: 0
     });
 
-    const token = getItem('token');
-
-    async function loadExtract() {
-        try {
-            const response = await api.get('/transacao/extrato', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            if (response.status > 204) {
-                return notifyError(response.data);
-            }
-
-            const { entrada, saida } = response.data;
-
-            setExtract({
-                in: formatToMoney(entrada),
-                out: formatToMoney(saida),
-                balance: formatToMoney(entrada - saida)
-            });
-
-        } catch (error) {
-            notifyError(error.response.data);
-        }
-    }
 
     useEffect(() => {
+        const token = getItem('token');
+
+        async function loadExtract() {
+            try {
+                const response = await api.get('/transacao/extrato', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                if (response.status > 204) {
+                    return notifyError(response.data);
+                }
+
+                const { entrada, saida } = response.data;
+
+                setExtract({
+                    in: formatToMoney(entrada),
+                    out: formatToMoney(saida),
+                    balance: formatToMoney(entrada - saida)
+                });
+
+            } catch (error) {
+                notifyError(error.response.data);
+            }
+        }
+
         loadExtract();
+
     }, [transactions]);
 
     return (

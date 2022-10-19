@@ -18,7 +18,7 @@ function SignIn() {
     if (token) {
       navigate('/main');
     }
-  }, []);
+  }, [navigate]);
 
   async function handleSubmit(e) {
     e.preventDefault();
