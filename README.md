@@ -10,7 +10,6 @@ OBS: Não foi aplicado responsividade ainda no projeto, pois não foi exigido pa
 - ReactJS
   - React-router-dom
   - React-toastify
-  - Web-vitals
 - NodeJS
   - Axios
   - Date-fns
