@@ -40,8 +40,8 @@ function SignUp() {
       if (response.status > 204) {
         return notifyError(response.data);
       }
-
-      notifySucess('Cdastro realizado.');
+      
+      notifySucess('Cadastro realizado.');
 
       navigate('/');
 
