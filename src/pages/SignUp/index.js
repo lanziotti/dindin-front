@@ -46,7 +46,7 @@ function SignUp() {
       navigate('/');
 
     } catch (error) {
-      notifyError(error.response.data);
+      notifyError(error.response.data.mensagem);
     }
   }
 
