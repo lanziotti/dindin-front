@@ -69,7 +69,7 @@ OBS: Não foi aplicado responsividade ainda no projeto, pois não foi exigido pa
 #
 
 ## Links
-- Deploy Vercel (acesse o programa por aqui): https://dindin-phi.vercel.app
+- Deploy na Vercel (acesse o programa por aqui): https://dindin-phi.vercel.app
 - Repositório: https://github.com/lanziotti/dindin-front
 
 ## Contatos
